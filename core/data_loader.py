@@ -9,7 +9,7 @@ import torch
 from PIL import Image
 from torch.utils.data import Dataset
 from torchvision.transforms import transforms as trns
-
+from torchsampler import ImbalancedDatasetSampler
 
 def create_data(data_dir: os.pardir, save_file: str) -> pd.DataFrame:
     """
@@ -183,8 +183,9 @@ def prepare_dataloader(df: pd.DataFrame, trn_idx: np.ndarray, val_idx: np.ndarra
         batch_size=16,
         pin_memory=False,
         drop_last=False,
-        shuffle=True,
+        shuffle=False,
         num_workers=4,
+        sampler=ImbalancedDatasetSampler(train_ds)
     )
 
     val_loader = torch.utils.data.DataLoader(
@@ -193,5 +194,6 @@ def prepare_dataloader(df: pd.DataFrame, trn_idx: np.ndarray, val_idx: np.ndarra
         num_workers=4,
         shuffle=False,
         pin_memory=False,
+        sampler=ImbalancedDatasetSampler(valid_ds)
     )
     return train_loader, val_loader
