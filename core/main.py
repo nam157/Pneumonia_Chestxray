@@ -1,79 +1,54 @@
-import torch
-from sklearn.model_selection import StratifiedKFold
-from train import train_one_epoch, valid_one_epoch
-from models import Classifier
-from torch.cuda.amp import GradScaler
-from torch import nn
+from tqdm import tqdm
 import numpy as np
-from data_loader import prepare_dataloader, create_data
+import torch
+from data_loader import concat_dataset, prepare_dataloader
+from models import Classifier
+from sklearn.model_selection import StratifiedKFold
+from torch import nn
+from torch.cuda.amp import GradScaler
+from train import train_one_epoch, valid_one_epoch
+from method_balance_data import get_weighted_loss
 
-
-if __name__ == "__main__":
-    train = create_data(path_csv="data_chestxray/train.csv")
+def main():
+    device = torch.device("cuda")
+    dataset = concat_dataset(train_dir="chest_xray/train", val_dir="chest_xray/val")
     folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=121).split(
-        np.arange(train.shape[0]), train.target.values
+        np.arange(dataset.shape[0]), dataset.label.values
     )
-
     for fold, (trn_idx, val_idx) in enumerate(folds):
         if fold > 0:
             break
 
-        print("Training with {} started".format(fold))
-
-        print(len(trn_idx), len(val_idx))
         train_loader, val_loader = prepare_dataloader(
-            df_train=data_train, df_val=data_val
+            df=dataset, trn_idx=trn_idx, val_idx=val_idx
         )
-
-        device = torch.device("cuda")
-
-        model = Classifier(
-            model_arch="densenet121", n_class=train.target.nunique(), pretrained=True
-        ).to(device)
-        scaler = GradScaler()
-        optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=0.001)
-
-        scheduler = torch.optim.lr_scheduler.StepLR(
-            optimizer, gamma=0.1, step_size=10 - 1
+        model = Classifier(model_arch="densenet121", n_class=2, pretrained=True).to(
+            device
         )
-        # scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=CFG['T_0'], T_mult=1, eta_min=CFG['min_lr'], last_epoch=-1)
-        # scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer=optimizer, pct_start=0.1, div_factor=25,
-        #                                                max_lr=CFG['lr'], epochs=CFG['epochs'], steps_per_epoch=len(train_loader))
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.0001, weight_decay=0.001)
+        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, gamma=0.1, step_size=10 - 1)
 
-        loss_tr = nn.CrossEntropyLoss().to(device)  # MyCrossEntropyLoss().to(device)
-        loss_fn = nn.CrossEntropyLoss().to(device)
+        loss = get_weighted_loss(pos_weights=[0.2703210382513661],neg_weights=[0.7296789617486339])
 
+        # loss = nn.CrossEntropyLoss().to(device)
+        
+        
         best_val = 0
 
         for epoch in range(10):
-            train_one_epoch(
-                epoch,
-                model,
-                loss_tr,
-                optimizer,
-                train_loader,
-                device,
-                scheduler=scheduler,
-                schd_batch_update=False,
-            )
+            running_loss = train_one_epoch(epoch=epoch,model=model,loss_fn=loss,optimizer=optimizer,train_loader=train_loader,device=device)
+            description = f"epoch {epoch} loss: {running_loss:.4f}"
+            print(f'TRAIN: {description}')
+            validation_loss,acc_val = valid_one_epoch(epoch=epoch,model=model,loss_fn=loss,val_loader=val_loader,device=device,best_val=best_val,fold=fold)
+            description = f"epoch {epoch} loss: {validation_loss:.4f}"
+            print(f'VALID: {description}')
+            scheduler.step()
+            torch.save(model.state_dict(), "{}_fold_{}_{}.pt".format("densenet121", fold, epoch))
 
-            with torch.no_grad():
-                best_val = valid_one_epoch(
-                    epoch,
-                    model,
-                    loss_fn,
-                    val_loader,
-                    device,
-                    best_val,
-                    fold,
-                    scheduler=None,
-                    schd_loss_update=False,
-                )
-
-            torch.save(
-                model.state_dict(), "{}_fold_{}_{}".format("densenet121", fold, epoch)
-            )
-
-        # torch.save(model.cnn_model.state_dict(),'{}/cnn_model_fold_{}_{}'.format(CFG['model_path'], fold, CFG['tag']))
-        del model, optimizer, train_loader, val_loader, scaler, scheduler
+        del model, optimizer, train_loader, val_loader, scheduler
         torch.cuda.empty_cache()
+
+
+
+if __name__ == "__main__":
+    main()

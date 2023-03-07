@@ -2,7 +2,7 @@ import glob
 import os
 from typing import List
 
-import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import PIL
 import torch
@@ -40,8 +40,33 @@ def create_data(data_dir: os.pardir, save_file: str) -> pd.DataFrame:
 
     data = data.sample(frac=1.0).reset_index(drop=True)
 
+    os.makedirs("data_chestxray", exist_ok=True)
     data.to_csv(os.path.join("data_chestxray/", save_file), index=False)
     return data
+
+
+def concat_dataset(
+    train_dir: str = "chest_xray/train",test_dir: str = "chest_xray/test",val_dir: str = "chest_xray/val"
+) -> pd.DataFrame:
+    """
+    It takes in the train and validation directory and creates a dataframe for each of them. Then it
+    concatenates the two dataframes and returns the concatenated dataframe
+
+    :param train_dir: The directory where the training data is stored, defaults to chest_xray/train
+    :type train_dir: str (optional)
+    :param val_dir: The directory where the validation data is stored, defaults to chest_xray/val
+    :type val_dir: str (optional)
+    :return: A dataframe with the image paths and labels for the train and validation sets.
+    """
+    data_train = create_data(data_dir=train_dir, save_file="train.csv")
+    data_test = create_data(data_dir=test_dir,save_file='test.csv')
+    data_validation = create_data(data_dir=val_dir, save_file="val.csv")
+    data_merge = (
+        pd.concat([data_train, data_validation,data_test], axis=0)
+        .reset_index()
+        .drop(["index"], axis=1)
+    )
+    return data_merge
 
 
 def data_augmentations(img_size: float = 224):
@@ -71,9 +96,10 @@ def data_augmentations(img_size: float = 224):
         ]
     )
     test_transforms = trns.Compose(
-        [
-            trns.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        [   
+            trns.Resize(size=img_size),
             trns.ToTensor(),
+            trns.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]
     )
 
@@ -127,26 +153,30 @@ class ChestXrayDataset(Dataset):
         return img, target
 
 
-def prepare_dataloader(df_train: pd.DataFrame, df_val: pd.DataFrame):
+def prepare_dataloader(df: pd.DataFrame, trn_idx: np.ndarray, val_idx: np.ndarray):
     """
-    It takes in two dataframes, one for training and one for validation, and returns two dataloaders,
-    one for training and one for validation
-    
-    :param df_train: pd.DataFrame, df_val: pd.DataFrame
-    :type df_train: pd.DataFrame
-    :param df_val: pd.DataFrame - the validation dataframe
-    :type df_val: pd.DataFrame
+    > We take the training and validation indices, and use them to create two datasets, one for training
+    and one for validation. We then create two dataloaders, one for training and one for validation
+
+    :param df: the dataframe containing the image paths and labels
+    :type df: pd.DataFrame
+    :param trn_idx: the indices of the training set
+    :type trn_idx: np.ndarray
+    :param val_idx: the validation indices
+    :type val_idx: np.ndarray
     :return: train_loader and val_loader
     """
+    train_ = df.loc[trn_idx, :].reset_index(drop=True)
+    valid_ = df.loc[val_idx, :].reset_index(drop=True)
 
     train_transforms, val_transforms, test_transforms = data_augmentations(img_size=224)
 
-    train_ds = ChestXrayDataset(df=df_train, transforms=train_transforms)
-    valid_ds = ChestXrayDataset(df=df_val, transforms=train_transforms)
+    train_ds = ChestXrayDataset(df=train_, transforms=train_transforms)
+    valid_ds = ChestXrayDataset(df=valid_, transforms=train_transforms)
 
     train_loader = torch.utils.data.DataLoader(
         train_ds,
-        batch_size=16,
+        batch_size=8,
         pin_memory=False,
         drop_last=False,
         shuffle=True,
@@ -155,7 +185,7 @@ def prepare_dataloader(df_train: pd.DataFrame, df_val: pd.DataFrame):
 
     val_loader = torch.utils.data.DataLoader(
         valid_ds,
-        batch_size=16,
+        batch_size=4,
         num_workers=4,
         shuffle=False,
         pin_memory=False,

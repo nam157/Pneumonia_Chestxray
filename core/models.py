@@ -1,6 +1,7 @@
 import timm
 import torch.nn as nn
 
+
 # > We're creating a classifier that takes in a model architecture, number of classes, and a
 # pretrained flag.
 #
@@ -25,4 +26,4 @@ class Classifier(nn.Module):
 
     def forward(self, x):
         x = self.model(x)
-        return
+        return x
