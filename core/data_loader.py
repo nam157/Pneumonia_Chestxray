@@ -119,7 +119,11 @@ class ChestXrayDataset(Dataset):
         """
         self.df = df
         self.transforms = transforms
-        self.labels = self.df["label"].values
+        self.labels = self.get_labels()
+    
+    def get_labels(self):
+        labels = self.df["label"].values
+        return labels
 
     def __len__(self):
         """
@@ -176,7 +180,7 @@ def prepare_dataloader(df: pd.DataFrame, trn_idx: np.ndarray, val_idx: np.ndarra
 
     train_loader = torch.utils.data.DataLoader(
         train_ds,
-        batch_size=8,
+        batch_size=16,
         pin_memory=False,
         drop_last=False,
         shuffle=True,

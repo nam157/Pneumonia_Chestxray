@@ -3,7 +3,7 @@ import numpy as np
 from data_loader import concat_dataset
 import torch
 
-data = concat_dataset()
+data  = concat_dataset(train_dir="data_chestxray/train", val_dir="data_chestxray/val",test_dir='data_chestxray/test.csv')
 COUNT_PNEUMONIA,COUNT_NORMAL = data['label'].value_counts()
 print("Normal images count in training set: " + str(COUNT_NORMAL))
 print("Pneumonia images count in training set: " + str(COUNT_PNEUMONIA))

@@ -130,4 +130,6 @@ dmypy.json
 #datasets
 data_chestxray/
 chest_xray/
-core/saved_model/
+saved_model/
+
+.vscode/

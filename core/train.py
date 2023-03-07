@@ -7,6 +7,7 @@ from torch.cuda.amp import autocast
 from tqdm import tqdm
 from sklearn.metrics import f1_score,recall_score,precision_score
 
+
 def train_one_epoch(
     epoch: int,
     model: Classifier,
@@ -35,10 +36,10 @@ def train_one_epoch(
     pbar = tqdm(enumerate(train_loader), total=len(train_loader))
     for step, (imgs, image_labels) in pbar:
         imgs = imgs.to(device).float()
-        image_labels = image_labels.to(device).long()
+        image_labels = image_labels.to(device)
         optimizer.zero_grad()
         image_preds = model(imgs)
-        loss = loss_fn(image_preds, image_labels) 
+        loss = loss_fn(image_preds.squeeze(1), image_labels.float()) 
         loss.backward()
         optimizer.step()
 
@@ -55,6 +56,7 @@ def valid_one_epoch(
     device: torch.device,
     best_val: float,
     fold: int,
+    logger,
 ):
     """
     It takes in the model, the loss function, the validation data loader, the device, the best
@@ -83,21 +85,21 @@ def valid_one_epoch(
     pbar = tqdm(enumerate(val_loader), total=len(val_loader))
     for step, (imgs, image_labels) in pbar:
         imgs = imgs.to(device).float()
-        image_labels = image_labels.to(device).long()
+        image_labels = image_labels.to(device).float()
 
         image_preds = model(imgs)
-        image_preds_all += [torch.argmax(image_preds, 1).detach().cpu().numpy()]
+        image_preds_all += [(image_preds.squeeze(1) > 0.5).float().detach().cpu().numpy()]
         image_targets_all += [image_labels.detach().cpu().numpy()]
 
-        loss = loss_fn(image_preds, image_labels)
+        loss = loss_fn(image_preds.squeeze(1), image_labels)
 
         validation_loss += loss.item()
 
     image_preds_all = np.concatenate(image_preds_all)
     image_targets_all = np.concatenate(image_targets_all)
 
-    print(f"image_preds_all: {image_preds_all}")
-    print(f"image_targets_all: {image_targets_all}")
+    logger.info("image_preds_all: {}".format(image_preds_all))
+    logger.info("image_targets_all: {}".format(image_targets_all))
 
     valid_acc = (image_preds_all == image_targets_all).mean()
     valid_f1  = f1_score(image_targets_all,image_preds_all)
@@ -109,9 +111,9 @@ def valid_one_epoch(
         best_val = valid_acc
         torch.save(model.state_dict(), f"./best_model_fold{fold}.pt")
 
-    print("validation  accuracy = {:.4f}".format(valid_acc))
-    print("Validation F1-Score = {:.4f}".format(valid_f1))
-    print("Validation Pecision-Score = {:.4f}".format(valid_precison))
-    print("Validation Recall-Score = {:.4f}".format(valid_recall))
+    logger.info("validation  accuracy = {:.4f}".format(valid_acc))
+    logger.info("Validation F1-Score = {:.4f}".format(valid_f1))
+    logger.info("Validation Pecision-Score = {:.4f}".format(valid_precison))
+    logger.info("Validation Recall-Score = {:.4f}".format(valid_recall))
 
     return validation_loss / len(val_loader),best_val
