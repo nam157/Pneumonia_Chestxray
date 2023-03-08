@@ -132,3 +132,4 @@ chest_xray/
 saved_model/
 
 .vscode/
+wandb/

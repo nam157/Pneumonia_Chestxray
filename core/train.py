@@ -3,9 +3,11 @@ import time
 import numpy as np
 import torch
 from models import Classifier
+from sklearn.metrics import (confusion_matrix, f1_score, precision_score,
+                             recall_score)
 from torch.cuda.amp import autocast
 from tqdm import tqdm
-from sklearn.metrics import f1_score,recall_score,precision_score
+import wandb
 
 
 def train_one_epoch(
@@ -39,13 +41,12 @@ def train_one_epoch(
         image_labels = image_labels.to(device)
         optimizer.zero_grad()
         image_preds = model(imgs)
-        loss = loss_fn(image_preds.squeeze(1), image_labels.float()) 
+        loss = loss_fn(image_preds.squeeze(1), image_labels.float())
         loss.backward()
         optimizer.step()
 
         running_loss.append(loss.item())
     return sum(running_loss) / len(running_loss)
-            
 
 
 def valid_one_epoch(
@@ -54,8 +55,6 @@ def valid_one_epoch(
     loss_fn,
     val_loader: torch.utils.data.DataLoader,
     device: torch.device,
-    best_val: float,
-    fold: int,
     logger,
 ):
     """
@@ -88,7 +87,9 @@ def valid_one_epoch(
         image_labels = image_labels.to(device).float()
 
         image_preds = model(imgs)
-        image_preds_all += [(image_preds.squeeze(1) > 0.5).float().detach().cpu().numpy()]
+        image_preds_all += [
+            (image_preds.squeeze(1) > 0.5).float().detach().cpu().numpy()
+        ]
         image_targets_all += [image_labels.detach().cpu().numpy()]
 
         loss = loss_fn(image_preds.squeeze(1), image_labels)
@@ -102,18 +103,39 @@ def valid_one_epoch(
     logger.info("image_targets_all: {}".format(image_targets_all))
 
     valid_acc = (image_preds_all == image_targets_all).mean()
-    valid_f1  = f1_score(image_targets_all,image_preds_all)
-    valid_precison = precision_score(image_targets_all,image_preds_all)
-    valid_recall  = recall_score(image_targets_all,image_preds_all)
+    valid_f1 = f1_score(
+        y_true=image_targets_all, y_pred=image_preds_all, average="binary"
+    )
+    valid_precision = precision_score(
+        y_true=image_targets_all, y_pred=image_preds_all, average="binary"
+    )
+    valid_recall = recall_score(
+        y_true=image_targets_all, y_pred=image_preds_all, average="binary"
+    )
+    confusionmatrix = confusion_matrix(y_true=image_targets_all, y_pred=image_preds_all)
 
-
-    if valid_acc > best_val:
-        best_val = valid_acc
-        torch.save(model.state_dict(), f"./best_model_fold{fold}.pt")
+    wandb.log(
+        {
+            "acc-valid": valid_acc,
+            "F1-valid": valid_f1,
+            "precision-valid": valid_precision,
+            "recall-valid": valid_recall,
+        }
+    )
+    wandb.log(
+        {
+            "conf_mat": wandb.plot.confusion_matrix(probs=None,
+                preds=image_preds_all,
+                y_true=image_targets_all,
+                class_names=["Normal", "Pneumonia"],
+            )
+        }
+    )
 
     logger.info("validation  accuracy = {:.4f}".format(valid_acc))
     logger.info("Validation F1-Score = {:.4f}".format(valid_f1))
-    logger.info("Validation Pecision-Score = {:.4f}".format(valid_precison))
+    logger.info("Validation Pecision-Score = {:.4f}".format(valid_precision))
     logger.info("Validation Recall-Score = {:.4f}".format(valid_recall))
+    logger.info("Confusion matrix = {}".format(confusionmatrix))
 
-    return validation_loss / len(val_loader),best_val
+    return validation_loss / len(val_loader)

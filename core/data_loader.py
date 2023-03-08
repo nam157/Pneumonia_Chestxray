@@ -8,8 +8,9 @@ import PIL
 import torch
 from PIL import Image
 from torch.utils.data import Dataset
-from torchvision.transforms import transforms as trns
 from torchsampler import ImbalancedDatasetSampler
+from torchvision.transforms import transforms as trns
+
 
 def create_data(data_dir: os.pardir, save_file: str) -> pd.DataFrame:
     """
@@ -46,7 +47,9 @@ def create_data(data_dir: os.pardir, save_file: str) -> pd.DataFrame:
 
 
 def concat_dataset(
-    train_dir: str = "chest_xray/train",test_dir: str = "chest_xray/test",val_dir: str = "chest_xray/val"
+    train_dir: str = "chest_xray/train",
+    test_dir: str = "chest_xray/test",
+    val_dir: str = "chest_xray/val",
 ) -> pd.DataFrame:
     """
     It takes in the train and validation directory and creates a dataframe for each of them. Then it
@@ -59,13 +62,21 @@ def concat_dataset(
     :return: A dataframe with the image paths and labels for the train and validation sets.
     """
     data_train = create_data(data_dir=train_dir, save_file="train.csv")
-    data_test = create_data(data_dir=test_dir,save_file='test.csv')
-    data_validation = create_data(data_dir=val_dir, save_file="val.csv")
+    if test_dir:
+        data_test = create_data(data_dir=test_dir, save_file="test.csv")
+    else:
+        data_test = None
+    if val_dir:
+        data_validation = create_data(data_dir=val_dir, save_file="val.csv")
+    else:
+        data_validation = None
+
     data_merge = (
-        pd.concat([data_train, data_validation,data_test], axis=0)
+        pd.concat([data_train, data_validation, data_test], axis=0)
         .reset_index()
         .drop(["index"], axis=1)
     )
+
     return data_merge
 
 
@@ -81,8 +92,9 @@ def data_augmentations(img_size: float = 224):
 
     train_transforms = trns.Compose(
         [
-            trns.RandomResizedCrop(img_size),
+            trns.CenterCrop(img_size),
             trns.RandomHorizontalFlip(),
+            trns.RandomVerticalFlip(),
             trns.ToTensor(),
             trns.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]
@@ -90,13 +102,12 @@ def data_augmentations(img_size: float = 224):
     val_transforms = trns.Compose(
         [
             trns.Resize(size=img_size),
-            trns.RandomHorizontalFlip(),
             trns.ToTensor(),
             trns.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]
     )
     test_transforms = trns.Compose(
-        [   
+        [
             trns.Resize(size=img_size),
             trns.ToTensor(),
             trns.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
@@ -120,7 +131,7 @@ class ChestXrayDataset(Dataset):
         self.df = df
         self.transforms = transforms
         self.labels = self.get_labels()
-    
+
     def get_labels(self):
         labels = self.df["label"].values
         return labels
@@ -178,6 +189,8 @@ def prepare_dataloader(df: pd.DataFrame, trn_idx: np.ndarray, val_idx: np.ndarra
     train_ds = ChestXrayDataset(df=train_, transforms=train_transforms)
     valid_ds = ChestXrayDataset(df=valid_, transforms=train_transforms)
 
+    from method_balance_data import weight_random_sampler
+
     train_loader = torch.utils.data.DataLoader(
         train_ds,
         batch_size=16,
@@ -185,7 +198,8 @@ def prepare_dataloader(df: pd.DataFrame, trn_idx: np.ndarray, val_idx: np.ndarra
         drop_last=False,
         shuffle=False,
         num_workers=4,
-        sampler=ImbalancedDatasetSampler(train_ds)
+        # sampler=ImbalancedDatasetSampler(train_ds)
+        sampler=weight_random_sampler(df=train_, train_ds=train_ds),
     )
 
     val_loader = torch.utils.data.DataLoader(
@@ -194,6 +208,7 @@ def prepare_dataloader(df: pd.DataFrame, trn_idx: np.ndarray, val_idx: np.ndarra
         num_workers=4,
         shuffle=False,
         pin_memory=False,
-        sampler=ImbalancedDatasetSampler(valid_ds)
+        # sampler=ImbalancedDatasetSampler(valid_ds)
+        sampler=weight_random_sampler(df=valid_, train_ds=valid_ds),
     )
     return train_loader, val_loader

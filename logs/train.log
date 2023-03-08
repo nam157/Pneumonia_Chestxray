@@ -1,0 +1,315 @@
+22:22:40,183 root INFO Create dataset
+22:22:40,291 root INFO Load model mobilenetv3_large_100
+22:22:40,369 timm.models.helpers INFO Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/mobilenetv3_large_100_ra-f55367f5.pth)
+22:23:21,64 root INFO TRAIN: epoch 0 loss: 0.0537
+22:23:42,210 root INFO image_preds_all: [1. 0. 0. ... 1. 1. 1.]
+22:23:42,211 root INFO image_targets_all: [1. 0. 0. ... 1. 1. 1.]
+22:23:44,63 root INFO validation  accuracy = 0.9862
+22:23:44,63 root INFO Validation F1-Score = 0.9867
+22:23:44,63 root INFO Validation Pecision-Score = 0.9737
+22:23:44,63 root INFO Validation Recall-Score = 1.0000
+22:23:44,63 root INFO Confusion matrix = [[833  24]
+ [  0 887]]
+22:24:17,119 root INFO Create dataset
+22:24:17,204 root INFO Load model mobilenetv3_large_100
+22:24:17,272 timm.models.helpers INFO Loading pretrained weights from url (https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/mobilenetv3_large_100_ra-f55367f5.pth)
+22:24:56,554 root INFO TRAIN: epoch 0 loss: 0.0580
+22:25:17,566 root INFO image_preds_all: [1. 0. 1. ... 0. 1. 0.]
+22:25:17,566 root INFO image_targets_all: [1. 0. 1. ... 0. 1. 0.]
+22:25:19,342 root INFO validation  accuracy = 0.9885
+22:25:19,342 root INFO Validation F1-Score = 0.9883
+22:25:19,342 root INFO Validation Pecision-Score = 0.9803
+22:25:19,342 root INFO Validation Recall-Score = 0.9965
+22:25:19,342 root INFO Confusion matrix = [[878  17]
+ [  3 846]]
+22:25:19,342 root INFO VALID: epoch 0 loss: 0.0356
+22:25:55,28 root INFO TRAIN: epoch 1 loss: 0.0340
+22:26:15,210 root INFO image_preds_all: [1. 1. 0. ... 0. 1. 0.]
+22:26:15,210 root INFO image_targets_all: [1. 1. 0. ... 0. 1. 0.]
+22:26:15,723 root INFO validation  accuracy = 0.9903
+22:26:15,723 root INFO Validation F1-Score = 0.9901
+22:26:15,723 root INFO Validation Pecision-Score = 0.9907
+22:26:15,723 root INFO Validation Recall-Score = 0.9896
+22:26:15,723 root INFO Confusion matrix = [[874   8]
+ [  9 853]]
+22:26:15,723 root INFO VALID: epoch 1 loss: 0.0571
+22:26:50,169 root INFO TRAIN: epoch 2 loss: 0.0184
+22:27:11,275 root INFO image_preds_all: [0. 1. 0. ... 0. 1. 0.]
+22:27:11,276 root INFO image_targets_all: [0. 1. 0. ... 0. 1. 0.]
+22:27:12,85 root INFO validation  accuracy = 0.9931
+22:27:12,85 root INFO Validation F1-Score = 0.9925
+22:27:12,85 root INFO Validation Pecision-Score = 0.9962
+22:27:12,85 root INFO Validation Recall-Score = 0.9887
+22:27:12,85 root INFO Confusion matrix = [[943   3]
+ [  9 789]]
+22:27:12,85 root INFO VALID: epoch 2 loss: 0.0206
+22:27:56,929 root INFO TRAIN: epoch 3 loss: 0.0167
+22:28:19,756 root INFO image_preds_all: [0. 0. 1. ... 0. 0. 1.]
+22:28:19,757 root INFO image_targets_all: [0. 0. 1. ... 0. 0. 1.]
+22:28:20,333 root INFO validation  accuracy = 0.9954
+22:28:20,333 root INFO Validation F1-Score = 0.9956
+22:28:20,333 root INFO Validation Pecision-Score = 0.9923
+22:28:20,333 root INFO Validation Recall-Score = 0.9989
+22:28:20,333 root INFO Confusion matrix = [[835   7]
+ [  1 901]]
+22:28:20,333 root INFO VALID: epoch 3 loss: 0.0204
+22:28:56,676 root INFO TRAIN: epoch 4 loss: 0.0038
+22:29:17,408 root INFO image_preds_all: [1. 1. 1. ... 0. 0. 1.]
+22:29:17,409 root INFO image_targets_all: [1. 1. 1. ... 0. 0. 1.]
+22:29:18,37 root INFO validation  accuracy = 0.9989
+22:29:18,37 root INFO Validation F1-Score = 0.9989
+22:29:18,37 root INFO Validation Pecision-Score = 0.9977
+22:29:18,37 root INFO Validation Recall-Score = 1.0000
+22:29:18,37 root INFO Confusion matrix = [[869   2]
+ [  0 873]]
+22:29:18,37 root INFO VALID: epoch 4 loss: 0.0107
+22:29:53,947 root INFO TRAIN: epoch 5 loss: 0.0030
+22:30:15,385 root INFO image_preds_all: [0. 0. 0. ... 1. 1. 0.]
+22:30:15,385 root INFO image_targets_all: [0. 0. 0. ... 1. 1. 0.]
+22:30:15,969 root INFO validation  accuracy = 0.9977
+22:30:15,969 root INFO Validation F1-Score = 0.9978
+22:30:15,969 root INFO Validation Pecision-Score = 0.9989
+22:30:15,969 root INFO Validation Recall-Score = 0.9967
+22:30:15,969 root INFO Confusion matrix = [[833   1]
+ [  3 907]]
+22:30:15,969 root INFO VALID: epoch 5 loss: 0.0103
+22:30:53,400 root INFO TRAIN: epoch 6 loss: 0.0312
+22:31:16,913 root INFO image_preds_all: [0. 1. 1. ... 1. 1. 1.]
+22:31:16,913 root INFO image_targets_all: [0. 1. 1. ... 1. 1. 1.]
+22:31:17,452 root INFO validation  accuracy = 0.9960
+22:31:17,452 root INFO Validation F1-Score = 0.9960
+22:31:17,452 root INFO Validation Pecision-Score = 0.9977
+22:31:17,452 root INFO Validation Recall-Score = 0.9944
+22:31:17,452 root INFO Confusion matrix = [[855   2]
+ [  5 882]]
+22:31:17,452 root INFO VALID: epoch 6 loss: 0.0181
+22:31:53,481 root INFO TRAIN: epoch 7 loss: 0.0053
+22:32:13,103 root INFO image_preds_all: [1. 0. 1. ... 1. 0. 0.]
+22:32:13,103 root INFO image_targets_all: [1. 0. 1. ... 1. 0. 0.]
+22:32:13,619 root INFO validation  accuracy = 0.9971
+22:32:13,619 root INFO Validation F1-Score = 0.9971
+22:32:13,619 root INFO Validation Pecision-Score = 0.9989
+22:32:13,619 root INFO Validation Recall-Score = 0.9954
+22:32:13,619 root INFO Confusion matrix = [[865   1]
+ [  4 874]]
+22:32:13,619 root INFO VALID: epoch 7 loss: 0.0100
+22:32:51,579 root INFO TRAIN: epoch 8 loss: 0.0223
+22:33:13,527 root INFO image_preds_all: [1. 0. 1. ... 1. 0. 0.]
+22:33:13,527 root INFO image_targets_all: [1. 0. 1. ... 1. 0. 0.]
+22:33:14,43 root INFO validation  accuracy = 0.9662
+22:33:14,43 root INFO Validation F1-Score = 0.9640
+22:33:14,43 root INFO Validation Pecision-Score = 0.9975
+22:33:14,43 root INFO Validation Recall-Score = 0.9327
+22:33:14,58 root INFO Confusion matrix = [[895   2]
+ [ 57 790]]
+22:33:14,58 root INFO VALID: epoch 8 loss: 0.0810
+22:33:51,258 root INFO TRAIN: epoch 9 loss: 0.0213
+22:34:12,502 root INFO image_preds_all: [1. 0. 1. ... 1. 1. 0.]
+22:34:12,502 root INFO image_targets_all: [1. 0. 1. ... 1. 1. 0.]
+22:34:13,51 root INFO validation  accuracy = 0.9891
+22:34:13,51 root INFO Validation F1-Score = 0.9892
+22:34:13,51 root INFO Validation Pecision-Score = 0.9786
+22:34:13,51 root INFO Validation Recall-Score = 1.0000
+22:34:13,51 root INFO Confusion matrix = [[856  19]
+ [  0 869]]
+22:34:13,51 root INFO VALID: epoch 9 loss: 0.0534
+22:34:48,691 root INFO TRAIN: epoch 10 loss: 0.0245
+22:35:09,899 root INFO image_preds_all: [1. 0. 1. ... 1. 1. 0.]
+22:35:09,899 root INFO image_targets_all: [1. 0. 1. ... 1. 1. 0.]
+22:35:10,432 root INFO validation  accuracy = 0.9656
+22:35:10,432 root INFO Validation F1-Score = 0.9641
+22:35:10,432 root INFO Validation Pecision-Score = 1.0000
+22:35:10,432 root INFO Validation Recall-Score = 0.9306
+22:35:10,432 root INFO Confusion matrix = [[879   0]
+ [ 60 805]]
+22:35:10,434 root INFO VALID: epoch 10 loss: 0.1407
+22:35:46,117 root INFO TRAIN: epoch 11 loss: 0.0136
+22:36:06,820 root INFO image_preds_all: [0. 0. 1. ... 1. 1. 0.]
+22:36:06,821 root INFO image_targets_all: [0. 0. 1. ... 1. 1. 0.]
+22:36:07,401 root INFO validation  accuracy = 0.9977
+22:36:07,401 root INFO Validation F1-Score = 0.9978
+22:36:07,401 root INFO Validation Pecision-Score = 0.9978
+22:36:07,401 root INFO Validation Recall-Score = 0.9978
+22:36:07,401 root INFO Confusion matrix = [[836   2]
+ [  2 904]]
+22:36:07,403 root INFO VALID: epoch 11 loss: 0.0196
+22:36:43,58 root INFO TRAIN: epoch 12 loss: 0.0044
+22:37:03,683 root INFO image_preds_all: [1. 1. 1. ... 0. 1. 0.]
+22:37:03,683 root INFO image_targets_all: [1. 1. 1. ... 0. 1. 0.]
+22:37:04,364 root INFO validation  accuracy = 0.9960
+22:37:04,364 root INFO Validation F1-Score = 0.9959
+22:37:04,364 root INFO Validation Pecision-Score = 1.0000
+22:37:04,364 root INFO Validation Recall-Score = 0.9917
+22:37:04,364 root INFO Confusion matrix = [[896   0]
+ [  7 841]]
+22:37:04,365 root INFO VALID: epoch 12 loss: 0.0076
+22:37:39,355 root INFO TRAIN: epoch 13 loss: 0.0029
+22:37:59,661 root INFO image_preds_all: [1. 1. 1. ... 0. 0. 1.]
+22:37:59,661 root INFO image_targets_all: [1. 1. 1. ... 0. 0. 1.]
+22:38:00,228 root INFO validation  accuracy = 1.0000
+22:38:00,228 root INFO Validation F1-Score = 1.0000
+22:38:00,228 root INFO Validation Pecision-Score = 1.0000
+22:38:00,228 root INFO Validation Recall-Score = 1.0000
+22:38:00,228 root INFO Confusion matrix = [[874   0]
+ [  0 870]]
+22:38:00,230 root INFO VALID: epoch 13 loss: 0.0011
+22:38:34,865 root INFO TRAIN: epoch 14 loss: 0.0006
+22:38:55,127 root INFO image_preds_all: [0. 0. 1. ... 0. 1. 0.]
+22:38:55,127 root INFO image_targets_all: [0. 0. 1. ... 0. 1. 0.]
+22:38:55,689 root INFO validation  accuracy = 0.9994
+22:38:55,689 root INFO Validation F1-Score = 0.9994
+22:38:55,689 root INFO Validation Pecision-Score = 1.0000
+22:38:55,689 root INFO Validation Recall-Score = 0.9989
+22:38:55,690 root INFO Confusion matrix = [[872   0]
+ [  1 871]]
+22:38:55,691 root INFO VALID: epoch 14 loss: 0.0066
+22:39:30,516 root INFO TRAIN: epoch 15 loss: 0.0007
+22:39:50,948 root INFO image_preds_all: [0. 0. 0. ... 0. 1. 0.]
+22:39:50,948 root INFO image_targets_all: [0. 0. 0. ... 0. 1. 0.]
+22:39:51,509 root INFO validation  accuracy = 0.9994
+22:39:51,510 root INFO Validation F1-Score = 0.9994
+22:39:51,510 root INFO Validation Pecision-Score = 1.0000
+22:39:51,510 root INFO Validation Recall-Score = 0.9988
+22:39:51,510 root INFO Confusion matrix = [[896   0]
+ [  1 847]]
+22:39:51,511 root INFO VALID: epoch 15 loss: 0.0080
+22:40:26,885 root INFO TRAIN: epoch 16 loss: 0.0029
+22:40:50,42 root INFO image_preds_all: [1. 0. 0. ... 1. 1. 1.]
+22:40:50,42 root INFO image_targets_all: [1. 0. 0. ... 1. 1. 1.]
+22:40:50,623 root INFO validation  accuracy = 1.0000
+22:40:50,623 root INFO Validation F1-Score = 1.0000
+22:40:50,623 root INFO Validation Pecision-Score = 1.0000
+22:40:50,623 root INFO Validation Recall-Score = 1.0000
+22:40:50,623 root INFO Confusion matrix = [[830   0]
+ [  0 914]]
+22:40:50,625 root INFO VALID: epoch 16 loss: 0.0009
+22:41:27,264 root INFO TRAIN: epoch 17 loss: 0.0007
+22:41:49,673 root INFO image_preds_all: [1. 1. 1. ... 0. 1. 1.]
+22:41:49,673 root INFO image_targets_all: [1. 1. 1. ... 0. 1. 1.]
+22:41:50,210 root INFO validation  accuracy = 0.9989
+22:41:50,211 root INFO Validation F1-Score = 0.9988
+22:41:50,211 root INFO Validation Pecision-Score = 1.0000
+22:41:50,211 root INFO Validation Recall-Score = 0.9977
+22:41:50,211 root INFO Confusion matrix = [[877   0]
+ [  2 865]]
+22:41:50,212 root INFO VALID: epoch 17 loss: 0.0044
+22:42:25,794 root INFO TRAIN: epoch 18 loss: 0.0004
+22:42:47,985 root INFO image_preds_all: [1. 0. 0. ... 0. 1. 1.]
+22:42:47,986 root INFO image_targets_all: [1. 0. 0. ... 0. 1. 1.]
+22:42:54,70 root INFO validation  accuracy = 0.9989
+22:42:54,70 root INFO Validation F1-Score = 0.9989
+22:42:54,70 root INFO Validation Pecision-Score = 0.9989
+22:42:54,70 root INFO Validation Recall-Score = 0.9989
+22:42:54,70 root INFO Confusion matrix = [[846   1]
+ [  1 896]]
+22:42:54,71 root INFO VALID: epoch 18 loss: 0.0028
+22:43:29,128 root INFO TRAIN: epoch 19 loss: 0.0155
+22:43:49,545 root INFO image_preds_all: [1. 1. 1. ... 0. 1. 0.]
+22:43:49,545 root INFO image_targets_all: [1. 1. 1. ... 0. 1. 0.]
+22:43:56,930 root INFO validation  accuracy = 0.9685
+22:43:56,930 root INFO Validation F1-Score = 0.9682
+22:43:56,930 root INFO Validation Pecision-Score = 0.9929
+22:43:56,930 root INFO Validation Recall-Score = 0.9446
+22:43:56,930 root INFO Confusion matrix = [[853   6]
+ [ 49 836]]
+22:43:56,931 root INFO VALID: epoch 19 loss: 0.0808
+22:44:32,586 root INFO TRAIN: epoch 20 loss: 0.0689
+22:44:53,38 root INFO image_preds_all: [1. 0. 0. ... 0. 1. 1.]
+22:44:53,39 root INFO image_targets_all: [1. 0. 0. ... 0. 1. 0.]
+22:44:53,584 root INFO validation  accuracy = 0.9891
+22:44:53,584 root INFO Validation F1-Score = 0.9891
+22:44:53,584 root INFO Validation Pecision-Score = 0.9785
+22:44:53,585 root INFO Validation Recall-Score = 1.0000
+22:44:53,585 root INFO Confusion matrix = [[859  19]
+ [  0 866]]
+22:44:53,586 root INFO VALID: epoch 20 loss: 0.0352
+22:45:29,726 root INFO TRAIN: epoch 21 loss: 0.0171
+22:45:51,211 root INFO image_preds_all: [1. 1. 0. ... 1. 0. 1.]
+22:45:51,212 root INFO image_targets_all: [1. 1. 0. ... 1. 0. 1.]
+22:45:51,772 root INFO validation  accuracy = 0.9925
+22:45:51,772 root INFO Validation F1-Score = 0.9925
+22:45:51,772 root INFO Validation Pecision-Score = 1.0000
+22:45:51,772 root INFO Validation Recall-Score = 0.9851
+22:45:51,772 root INFO Confusion matrix = [[872   0]
+ [ 13 859]]
+22:45:51,772 root INFO VALID: epoch 21 loss: 0.0154
+22:46:27,682 root INFO TRAIN: epoch 22 loss: 0.0066
+22:46:49,343 root INFO image_preds_all: [0. 0. 0. ... 0. 1. 1.]
+22:46:49,344 root INFO image_targets_all: [0. 0. 0. ... 0. 1. 1.]
+22:46:49,922 root INFO validation  accuracy = 0.9983
+22:46:49,922 root INFO Validation F1-Score = 0.9983
+22:46:49,922 root INFO Validation Pecision-Score = 0.9989
+22:46:49,922 root INFO Validation Recall-Score = 0.9978
+22:46:49,922 root INFO Confusion matrix = [[843   1]
+ [  2 898]]
+22:46:49,925 root INFO VALID: epoch 22 loss: 0.0037
+22:47:34,700 root INFO TRAIN: epoch 23 loss: 0.0350
+22:47:59,58 root INFO image_preds_all: [1. 1. 1. ... 1. 0. 0.]
+22:47:59,58 root INFO image_targets_all: [1. 1. 1. ... 1. 0. 0.]
+22:47:59,641 root INFO validation  accuracy = 0.9966
+22:47:59,641 root INFO Validation F1-Score = 0.9966
+22:47:59,641 root INFO Validation Pecision-Score = 1.0000
+22:47:59,641 root INFO Validation Recall-Score = 0.9931
+22:47:59,641 root INFO Confusion matrix = [[869   0]
+ [  6 869]]
+22:47:59,641 root INFO VALID: epoch 23 loss: 0.0092
+22:48:39,309 root INFO TRAIN: epoch 24 loss: 0.0043
+22:49:12,420 root INFO image_preds_all: [0. 1. 0. ... 0. 1. 1.]
+22:49:12,421 root INFO image_targets_all: [0. 1. 0. ... 0. 1. 1.]
+22:49:13,287 root INFO validation  accuracy = 0.9948
+22:49:13,287 root INFO Validation F1-Score = 0.9947
+22:49:13,287 root INFO Validation Pecision-Score = 0.9918
+22:49:13,287 root INFO Validation Recall-Score = 0.9976
+22:49:13,288 root INFO Confusion matrix = [[893   7]
+ [  2 842]]
+22:49:13,290 root INFO VALID: epoch 24 loss: 0.0108
+22:50:10,204 root INFO TRAIN: epoch 25 loss: 0.0015
+22:50:46,345 root INFO image_preds_all: [0. 0. 1. ... 0. 0. 1.]
+22:50:46,345 root INFO image_targets_all: [0. 0. 1. ... 0. 0. 1.]
+22:50:47,46 root INFO validation  accuracy = 0.9971
+22:50:47,46 root INFO Validation F1-Score = 0.9971
+22:50:47,47 root INFO Validation Pecision-Score = 0.9965
+22:50:47,47 root INFO Validation Recall-Score = 0.9976
+22:50:47,47 root INFO Confusion matrix = [[894   3]
+ [  2 845]]
+22:50:47,49 root INFO VALID: epoch 25 loss: 0.0052
+22:51:44,735 root INFO TRAIN: epoch 26 loss: 0.0034
+22:52:17,100 root INFO image_preds_all: [1. 1. 0. ... 1. 1. 0.]
+22:52:17,100 root INFO image_targets_all: [1. 1. 0. ... 1. 1. 0.]
+22:52:17,725 root INFO validation  accuracy = 0.9994
+22:52:17,725 root INFO Validation F1-Score = 0.9994
+22:52:17,725 root INFO Validation Pecision-Score = 1.0000
+22:52:17,725 root INFO Validation Recall-Score = 0.9988
+22:52:17,725 root INFO Confusion matrix = [[888   0]
+ [  1 855]]
+22:52:17,727 root INFO VALID: epoch 26 loss: 0.0028
+22:53:04,900 root INFO TRAIN: epoch 27 loss: 0.0036
+22:53:37,311 root INFO image_preds_all: [1. 1. 0. ... 0. 1. 0.]
+22:53:37,311 root INFO image_targets_all: [1. 1. 0. ... 0. 1. 0.]
+22:53:38,577 root INFO validation  accuracy = 0.9977
+22:53:38,577 root INFO Validation F1-Score = 0.9977
+22:53:38,577 root INFO Validation Pecision-Score = 0.9966
+22:53:38,577 root INFO Validation Recall-Score = 0.9989
+22:53:38,577 root INFO Confusion matrix = [[858   3]
+ [  1 882]]
+22:53:38,579 root INFO VALID: epoch 27 loss: 0.0048
+22:54:22,798 root INFO TRAIN: epoch 28 loss: 0.0016
+22:54:50,999 root INFO image_preds_all: [0. 1. 0. ... 0. 0. 1.]
+22:54:50,999 root INFO image_targets_all: [0. 1. 0. ... 0. 0. 1.]
+22:54:51,994 root INFO validation  accuracy = 0.9920
+22:54:51,995 root INFO Validation F1-Score = 0.9920
+22:54:51,995 root INFO Validation Pecision-Score = 0.9966
+22:54:51,995 root INFO Validation Recall-Score = 0.9875
+22:54:51,995 root INFO Confusion matrix = [[863   3]
+ [ 11 867]]
+22:54:51,995 root INFO VALID: epoch 28 loss: 0.0127
+22:55:37,799 root INFO TRAIN: epoch 29 loss: 0.0073
+22:56:06,875 root INFO image_preds_all: [1. 0. 0. ... 1. 0. 1.]
+22:56:06,876 root INFO image_targets_all: [1. 0. 0. ... 1. 0. 1.]
+22:56:07,459 root INFO validation  accuracy = 0.9914
+22:56:07,459 root INFO Validation F1-Score = 0.9914
+22:56:07,459 root INFO Validation Pecision-Score = 1.0000
+22:56:07,459 root INFO Validation Recall-Score = 0.9829
+22:56:07,459 root INFO Confusion matrix = [[865   0]
+ [ 15 864]]
+22:56:07,460 root INFO VALID: epoch 29 loss: 0.0268
